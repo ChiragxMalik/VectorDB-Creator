@@ -18,3 +18,11 @@ def load_documents(folder_path):
         docs = loader.load()
         all_docs.extend(docs)
     return all_docs
+
+def split_documents(documents):
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len,
+    )
+    return splitter.split_documents(documents)
