@@ -23,6 +23,7 @@ def split_documents(documents, chunk_size=500, chunk_overlap=100):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
+        length_function=len,  # Incorporated from remote
         add_start_index=True
     )
     return splitter.split_documents(documents)
@@ -63,12 +64,7 @@ def process_all_documents(data_folder=DATA_FOLDER, db_folder=DB_FOLDER):
             store_embeddings(chunks, embedding_model, collection_name, db_folder)
             print(f"Stored vectors for: {filename}\n")
 
-# Run
-if __name__ == "__main__":
-    process_all_documents()
-
-
-
+# # Alternative function to load all documents at once (from remote, corrected)
 # def load_documents(folder_path):
 #     all_docs = []
 #     for filename in os.listdir(folder_path):
@@ -76,9 +72,13 @@ if __name__ == "__main__":
 #         if filename.endswith(".pdf"):
 #             loader = PyMuPDFLoader(file_path)
 #         elif filename.endswith(".docx"):
-#             loader = DocxLoader(file_path)
+#             loader = Docx2txtLoader(file_path)  # Corrected from DocxLoader
 #         else:
 #             continue
 #         docs = loader.load()
 #         all_docs.extend(docs)
 #     return all_docs
+
+# Run
+if __name__ == "__main__":
+    process_all_documents()
