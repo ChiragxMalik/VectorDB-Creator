@@ -8,7 +8,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 DATA_FOLDER = "data"
 DB_FOLDER = "db"
 
-# Load a single document (PDF or DOCX)
+# Load from (PDF or DOCX)
 def load_document(file_path):
     if file_path.lower().endswith(".pdf"):
         loader = PyMuPDFLoader(file_path)
@@ -63,22 +63,6 @@ def process_all_documents(data_folder=DATA_FOLDER, db_folder=DB_FOLDER):
             collection_name = get_clean_collection_name(file_path)
             store_embeddings(chunks, embedding_model, collection_name, db_folder)
             print(f"Stored vectors for: {filename}\n")
-
-# # Alternative function to load all documents at once (from remote, corrected)
-# def load_documents(folder_path):
-#     all_docs = []
-#     for filename in os.listdir(folder_path):
-#         file_path = os.path.join(folder_path, filename)
-#         if filename.endswith(".pdf"):
-#             loader = PyMuPDFLoader(file_path)
-#         elif filename.endswith(".docx"):
-#             loader = Docx2txtLoader(file_path)  # Corrected from DocxLoader
-#         else:
-#             continue
-#         docs = loader.load()
-#         all_docs.extend(docs)
-#     return all_docs
-
-# Run
+#to run
 if __name__ == "__main__":
     process_all_documents()
